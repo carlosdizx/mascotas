@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS propietarios
 CREATE TABLE IF NOT EXISTS tipo_mascotas
 (
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    nombres VARCHAR(100) NOT NULL
+    nombre VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS mascotas
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS mascotas
   Insercion de datos
  */
 
-INSERT INTO tipo_mascotas (nombres) VALUES ('perros'), ('gatos'), ('loros'), ('hámster'), ('conejos'), ('palomas');
+INSERT INTO tipo_mascotas (nombre) VALUES ('perros'), ('gatos'), ('loros'), ('hámster'), ('conejos'), ('palomas');
 
 SELECT * FROM tipo_mascotas;
 SELECT * FROM propietarios;
@@ -71,3 +71,9 @@ INSERT INTO mascotas(nombre, ruta_foto, edad, raza, procedimiento, tipo, dueño)
 (
     'Felix','felix.jpg','10 Meses','Mestizo','',2,2
 );
+
+ALTER TABLE propietarios ADD correo VARCHAR(100) NOT NULL;
+
+SELECT m.nombre AS Nomre_Mascota,m.edad AS Edad,concat(p.nombres,' ',p.apellidos) AS Propietario,p.telefono AS Telefono,tm.nombre AS Tipo_Mascota,m.nombre AS Raza FROM mascotas m
+INNER JOIN propietarios p on m.dueño = p.id
+INNER JOIN tipo_mascotas tm on m.tipo = tm.id;
