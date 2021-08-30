@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS mascotas
   Insercion de datos
  */
 
-INSERT INTO tipo_mascotas (nombre) VALUES ('perros'), ('gatos'), ('loros'), ('hámster'), ('conejos'), ('palomas');
+INSERT INTO tipo_mascotas (nombre) VALUES ('perros'), ('gatos'), ('loros'), ('hámster'), ('conejos'), ('palomas'),('Otro');
 
 SELECT * FROM tipo_mascotas;
 SELECT * FROM propietarios;
