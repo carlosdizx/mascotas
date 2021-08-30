@@ -37,6 +37,7 @@ if (isset($_GET["id_propietario"])){
     else{  echo json_encode([]); }
 }
 
+// Se elimina a un propietario dado su id
 if (isset($_GET["id_propietario_del"])){
     $id = $_GET["id_propietario_del"];
 
@@ -57,6 +58,4 @@ if (isset($_GET["id_propietario_del"])){
     else{
         echo json_encode(["mensaje"=>"No existe"]);
     }
-
-
 }
