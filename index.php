@@ -6,9 +6,23 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 // Conecta a la base de datos  con usuario, contraseña y nombre de la BD
+// Si falla, muestra el error correspondiente
 $servidor = "localhost"; $usuario = "root"; $contrasenia = ""; $nombreBaseDatos = "mascotas";
-$conexionBD = new mysqli($servidor, $usuario, $contrasenia, $nombreBaseDatos);
+$conexionBD = new mysqli($servidor, $usuario, $contrasenia, $nombreBaseDatos)
+or die("Conexion fallida".$conexionBD->connect_error);
 
+
+
+// Consulta todos los registros de la tabla propietarios
+if (isset($_GET["all_propietarios"])){
+    $query = "SELECT * FROM propietarios;";
+    $sql = mysqli_query($conexionBD,$query );
+    if(mysqli_num_rows($sql) > 0){
+        $propietarios = mysqli_fetch_all($sql,MYSQLI_ASSOC);
+        echo json_encode($propietarios);
+    }
+    else{ echo json_encode([["mensaje"=>"No hay datos"]]); }
+}
 
 // Consulta por un propietario dado su id
 if (isset($_GET["id_propietario"])){
@@ -16,18 +30,33 @@ if (isset($_GET["id_propietario"])){
     $query = "SELECT * FROM propietarios WHERE id = '$id'";
     $sql = mysqli_query($conexionBD,$query);
     if(mysqli_num_rows($sql) > 0){
-        $empleaados = mysqli_fetch_all($sql,MYSQLI_ASSOC);
-        echo json_encode($empleaados);
+        $propietarios = mysqli_fetch_all($sql,MYSQLI_ASSOC);
+        echo json_encode($propietarios);
         exit();
     }
     else{  echo json_encode([]); }
 }
 
-// Consulta todos los registros de la tabla propietarios
-$query = "SELECT * FROM propietarios;";
-$sql = mysqli_query($conexionBD,$query );
-if(mysqli_num_rows($sql) > 0){
-    $empleaados = mysqli_fetch_all($sql,MYSQLI_ASSOC);
-    echo json_encode($empleaados);
+if (isset($_GET["id_propietario_del"])){
+    $id = $_GET["id_propietario_del"];
+
+    $query = "SELECT * FROM propietarios WHERE id = '$id'";
+    $sql = mysqli_query($conexionBD,$query);
+    if(mysqli_num_rows($sql) > 0){
+        $query = "DELETE FROM propietarios WHERE id = '$id';";
+        $sql = mysqli_query($conexionBD,$query);
+        if (!$sql){
+            echo json_encode(["mensaje"=>"No se pudo eliminar, ".$conexionBD->error]);
+        }
+        else
+        {
+            echo json_encode(["mensaje"=>"eliminado"]);
+            exit();
+        }
+    }
+    else{
+        echo json_encode(["mensaje"=>"No existe"]);
+    }
+
+
 }
-else{ echo json_encode([]); }
