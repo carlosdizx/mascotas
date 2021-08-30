@@ -62,7 +62,7 @@ if (isset($_GET["id_propietario_del"])){
 //Insertar un nuevo propietario
 if (isset($_GET["id_propietario_ins"])){
     $data = json_decode(file_get_contents("php://input"));
-    $nombres = $data->nombre;
+    $nombres = $data->nombres;
     $apellidos = $data->apellidos;
     $documento = $data->documento;
     $direccion = $data->direccion;
