@@ -40,7 +40,6 @@ if (isset($_GET["id_propietario"])){
 // Se elimina a un propietario dado su id
 if (isset($_GET["id_propietario_del"])){
     $id = $_GET["id_propietario_del"];
-
     $query = "SELECT * FROM propietarios WHERE id = '$id'";
     $sql = mysqli_query($conexionBD,$query);
     if(mysqli_num_rows($sql) > 0){
@@ -59,3 +58,20 @@ if (isset($_GET["id_propietario_del"])){
         echo json_encode(["mensaje"=>"No existe"]);
     }
 }
+
+//Insertar un nuevo propietario
+if (isset($_GET["id_propietario_ins"])){
+    $data = json_decode(file_get_contents("php://input"));
+    $nombres = $data->nombre;
+    $apellidos = $data->apellidos;
+    $documento = $data->documento;
+    $direccion = $data->direccion;
+    $telefono = $data->telefono;
+    $correo = $data->correo;
+    $query = "INSERT INTO propietarios (nombres, apellidos, documento, direccion, telefono,correo) VALUES 
+                ('$nombres','$apellidos','$documento','$direccion','$telefono','$correo')";
+    $sql = mysqli_query($conexionBD,$query);
+    echo json_encode(["mensaje"=>"Nuevo propietario"]);
+}
+
+
