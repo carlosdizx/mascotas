@@ -74,4 +74,26 @@ if (isset($_GET["id_propietario_ins"])){
     echo json_encode(["mensaje"=>"Nuevo propietario"]);
 }
 
+//Actulizar datos de un propietario dado su id
+if (isset($_GET["id_propietario_upd"])){
+    $data = json_decode(file_get_contents("php://input"));
+    $id = $data->id;
+    $nombres = $data->nombres;
+    $apellidos = $data->apellidos;
+    $documento = $data->documento;
+    $direccion = $data->direccion;
+    $telefono = $data->telefono;
+    $correo = $data->correo;
+    $query = "UPDATE propietarios SET nombres='$nombres',apellidos='$apellidos',documento='$documento',
+                        direccion='$direccion',telefono='$telefono',correo='$correo' WHERE id = '$id';";
+    $sql = mysqli_query($conexionBD,$query);
+    if (!$sql){
+        echo json_encode(["mensaje"=>"No se pudo actualizar, ".$conexionBD->error]);
+    }
+    else
+    {
+        echo json_encode(["mensaje"=>"Propietario actualizado"]);
+        exit();
+    }
+}
 
