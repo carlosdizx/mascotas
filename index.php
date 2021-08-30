@@ -71,7 +71,14 @@ if (isset($_GET["id_propietario_ins"])){
     $query = "INSERT INTO propietarios (nombres, apellidos, documento, direccion, telefono,correo) VALUES 
                 ('$nombres','$apellidos','$documento','$direccion','$telefono','$correo')";
     $sql = mysqli_query($conexionBD,$query);
-    echo json_encode(["mensaje"=>"Nuevo propietario"]);
+    if (!$sql){
+        echo json_encode(["mensaje"=>"No se pudo registrar, ".$conexionBD->error]);
+    }
+    else
+    {
+        echo json_encode(["mensaje"=>"Propietario registrado"]);
+        exit();
+    }
 }
 
 //Actulizar datos de un propietario dado su id
