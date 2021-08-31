@@ -16,3 +16,25 @@ WHERE m.dueño = '$id'";
         echo json_encode([$mascotas]);
     }
 }
+
+//Insertar una nueva mascota
+if (isset($_GET["insertar"])){
+    $data = json_decode(file_get_contents("php://input"));
+    $nombres = $data->nombres;
+    $apellidos = $data->apellidos;
+    $documento = $data->documento;
+    $direccion = $data->direccion;
+    $telefono = $data->telefono;
+    $correo = $data->correo;
+    $query = "INSERT INTO propietarios (nombres, apellidos, documento, direccion, telefono,correo) VALUES 
+                ('$nombres','$apellidos','$documento','$direccion','$telefono','$correo')";
+    $sql = mysqli_query($conexionBD,$query);
+    if (!$sql){
+        echo json_encode(["mensaje"=>"No se pudo registrar, ".$conexionBD->error]);
+    }
+    else
+    {
+        echo json_encode(["mensaje"=>"Propietario registrado"]);
+        exit();
+    }
+}
